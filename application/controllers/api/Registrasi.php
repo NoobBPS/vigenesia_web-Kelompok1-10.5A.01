@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-
 use Restserver\Libraries\REST_Controller;
 
 class registrasi extends REST_Controller
@@ -23,16 +22,27 @@ class registrasi extends REST_Controller
         // Load the user model
         $this->load->model('user');
     }
+
+    public function index_get()
+    {
+        $id = $this->get('id');
+        if ($id == '') {
+            $api = $this->db->get('user')->result();
+        } else {
+            $this->db->where('id', $id);
+            $api = $this->db->get('user')->result();
+        }
+        $this->response($api, 200);
+    }
+
     public function index_post()
     {
 
         // Get the post data
         $nama = strip_tags($this->post('nama'));
-
         $profesi = strip_tags($this->post('profesi'));
         $email = strip_tags($this->post('email'));
         $password = $this->post('password');
-
 
         // Validate the post data
         if (!empty($nama)  && !empty($profesi) && !empty($email) && !empty($password)) {
@@ -51,7 +61,6 @@ class registrasi extends REST_Controller
                 // Insert user data
                 $userData = array(
                     'nama' => $nama,
-
                     'profesi' => $profesi,
                     'email' => $email,
                     'password' => md5($password),
@@ -76,5 +85,6 @@ class registrasi extends REST_Controller
             // Set the response and exit
             $this->response("Provide complete user info to add.", REST_Controller::HTTP_BAD_REQUEST);
         }
+        
     }
 }
