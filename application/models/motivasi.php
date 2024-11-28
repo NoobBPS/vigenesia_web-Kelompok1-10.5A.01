@@ -1,6 +1,8 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+#[AllowDynamicProperties]
+
 class motivasi extends CI_Model
 {
 
