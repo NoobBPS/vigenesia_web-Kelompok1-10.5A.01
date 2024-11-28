@@ -26,6 +26,18 @@
             $this->load->model('user');
         }
 
+        public function index_get()
+    {
+        $id = $this->get('id');
+        if ($id == '') {
+            $api = $this->db->get('user')->result();
+        } else {
+            $this->db->where('id', $id);
+            $api = $this->db->get('user')->result();
+        }
+        $this->response($api, 200);
+    }
+
         public function index_post()
         {
             // Get the post data
