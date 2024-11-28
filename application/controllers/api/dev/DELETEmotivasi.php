@@ -22,6 +22,23 @@ class DELETEmotivasi extends REST_Controller
         }
     }
 
+    public function index_get()
+    {
+        $iduser = $this->get('iduser');
+        $tanggal_input = $this->get('tanggal_input');
+        if ($iduser == '') {
+            $this->db->order_by('tanggal_input', 'DESC');
+            $api = $this->db->get('motivasi')->result();
+        } else {
+            //$this->db->where('id', $id);
+            //$api = $this->db->get('motivasi')->result();
+
+            $this->db->where('iduser', $iduser);
+            $api = $this->db->get('motivasi')->result();
+        }
+        $this->response($api, 200);
+    }
+
     function index_delete()
     {
         $id = $this->delete('id');
